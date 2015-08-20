@@ -1,0 +1,16 @@
+<div class="form-group" xmlns="http://www.w3.org/1999/html">
+    <label>Groups</label>
+    <div class="form-group col-md-4 col-md-offset-4">
+        <label for="inputName">Group:</label>
+        <input type="text" class="form-control" id="inputName"
+               ng-model="group.name"  placeholder="new Group">
+        <button  type="button" class="btn btn-default" ng-hide="!(group.name.length > 0)"
+                 ng-click="saveGroup()"><i class="glyphicon glyphicon-check">Add</i></button>
+    </div>
+    <div ng-repeat="g in groups">
+        <label class="checkbox-inline">
+            <input type="checkbox" ng-checked="g.selected" ng-click="updateSelection($event, g)"/>{{g.name}}
+        </label>
+        <button type="button" class="fa fa-trash-o"  ng-click="removeGroup(g)"></button>
+    </div>
+</div>

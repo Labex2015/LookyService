@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Looky Web</title>
+    <link rel="shortcut icon" href="./images/icons/favicon.ico">
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+</head>
+
+<body>
+<div class="navbar navbar-default text-center" role="navigation">
+    <a class="btnInicio iconLooky" href="#/index"><img src="./images/logotipo.png" alt="Looky"></a>
+    <a class="btnInicio btn btn-primary" href="#/index">Inicio</a>
+    <a class="btnInicio btn btn-primary" href="#/knowledges">Conhecimentos</a>
+    <a class="btnInicio btn btn-primary" href="#/request_help">Procurar ajuda</a>
+    <a class="btnInicio btn btn-primary" href="#/interactions">Interações</a>
+    <a class="btnInicio btn btn-primary" href="#">Logout</a>
+</div>
+
+<div id="headerwrap col-lg-12">
+
+    <div class="col-lg-2 navbar navbar-default">
+        <figure>
+            <img ng-show="!user.picture" src="./images/default-user-icon-profile.png" alt="" class="img-circle img-responsive">
+            <img ng-show="user.picture" src="./images/{{user.picture}}" alt="" class="img-circle img-responsive">
+            <br />
+            <figcaption class="ratings">
+                <p>Ratings
+                    <a href="#">
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star-o"></span>
+                    </a>
+                </p>
+            </figcaption>
+        </figure>
+        <p><strong>LabEX - Feevale</strong></p>
+        <p><strong>About: </strong>Web Designer / UI. </p>
+        <p><strong>Hobbies: </strong>Read, out with friends, listen to music, draw and learn new things. </p>
+        <hr />
+
+        <div class="panel-primary">
+            <div class="panel-heading">Conhecimentos</div>
+            <div class="panel-body">
+                <p><strong>Conhecimento 01</strong> *</p>
+                <p><strong>Conhecimento 02</strong> * * *</p>
+                <p><strong>Conhecimento 03</strong> * * *</p>
+                <p><strong>Conhecimento 04</strong> * *</p>
+                <p><strong>Conhecimento 05</strong> *</p>
+                <p><strong>Conhecimento 06</strong> * * *</p>
+                <p><strong>Conhecimento 07</strong> *</p>
+            </div>
+        </div>
+
+        <div class="panel-primary">
+            <div class="panel-heading">Histórico de buscas</div>
+            <div class="panel-body">
+                <p><strong>Java</strong></p>
+                <p><strong>C</strong></p>
+                <p><strong>C#</strong></p>
+                <p><strong>JavaScript</strong></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+        <ng-view />
+    </div>
+
+    <div class="col-lg-2 panel-primary">
+       <div class="panel-heading">Ajudas globais</div>
+       <div class="panel-body">
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+           Histórico e global
+       </div>
+       <div class="panel-heading">Interações</div>
+       <div class="panel-body">
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+           Muitas interações
+       </div>
+       </div>
+    </div>
+
+</div>
+
+</div>
+    <script data-require="angular.js@*" data-semver="1.3.0-beta.14" src="http://code.angularjs.org/1.3.0-beta.14/angular.js"></script>
+    <script type="text/javascript" src="./js/angular-route.js"></script>
+    <script type="text/javascript" src="./js/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/jquery.confirm.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+</body>
+</html>

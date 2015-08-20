@@ -1,0 +1,3 @@
+service/KnowledgeServiceTest.class
+mocks/KnowledgesAndAreasMock.class
+controller/KnowledgeControllerTest.class

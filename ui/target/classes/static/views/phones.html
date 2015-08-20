@@ -1,0 +1,22 @@
+<div class="form-group col-md-4 col-md-offset-4">
+    <input type="tel" class="form-control" ng-model="phone.number">
+    <label for="type" class="control-label">Type:</label>
+    <select id="type" name="type" ng-model="phone.type" ng-options="type as type for type in types">
+        <option value="">-- Select --</option>
+    </select>
+    <button class="btn btn-default" ng-click="addPhone()"
+            ng-show="phone.type == 'Contact' ||
+                                         phone.type == 'Emergency' || phone.type == 'Personal'">Add phone!</button>
+</div>
+<table class="table  table-striped" ng-show="phones.length > 0">
+    <tr><th>#</th><th>Phone</th><th>Type</th><th>Edit</th></tr>
+    <tr ng-repeat="p in phones">
+        <td>{{p.id}}</td>
+        <td>{{p.number}}</td>
+        <td>{{p.type}}</td>
+        <td>
+        <a id="link-23" href="" ng-click="loadPhone(p)">Editar</a>
+        / <a id="link-4" href="" ng-click="removePhone(p)">Remover</a>
+        </td>
+    </tr>
+</table>
