@@ -1,6 +1,6 @@
 package br.feevale.labex.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import br.feevale.labex.controller.mod.KnowledgeMod;
 
 import javax.persistence.*;
 
@@ -34,8 +34,9 @@ public class Subject {
         return id;
     }
 
-    public void setId(Long id) {
+    public Subject setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {

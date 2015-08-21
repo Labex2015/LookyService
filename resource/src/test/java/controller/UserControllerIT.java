@@ -3,7 +3,6 @@ package controller;
 import br.feevale.labex.Application;
 import br.feevale.labex.model.Account;
 import br.feevale.labex.model.AccountType;
-import br.feevale.labex.model.Degree;
 import br.feevale.labex.model.User;
 import br.feevale.labex.service.InteractionService;
 import br.feevale.labex.service.user.UserService;

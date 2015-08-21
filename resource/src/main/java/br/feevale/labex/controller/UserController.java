@@ -2,17 +2,19 @@ package br.feevale.labex.controller;
 
 
 import br.feevale.labex.controller.data.KnowledgesData;
-import br.feevale.labex.controller.mod.EvaluationMod;
-import br.feevale.labex.controller.mod.InteractionMod;
-import br.feevale.labex.controller.mod.Profile;
-import br.feevale.labex.controller.mod.UserMod;
+import br.feevale.labex.controller.mod.*;
 import br.feevale.labex.controller.response.BaseCollectionResponse;
+import br.feevale.labex.controller.utils.APIDoc;
 import br.feevale.labex.exceptions.InvalidFieldException;
 import br.feevale.labex.gcm.vo.NotificationContent;
 import br.feevale.labex.model.*;
 import br.feevale.labex.service.InteractionService;
 import br.feevale.labex.service.KnowledgeService;
 import br.feevale.labex.service.user.UserService;
+import org.jsondoc.core.annotation.Api;
+import org.jsondoc.core.annotation.ApiBodyObject;
+import org.jsondoc.core.annotation.ApiMethod;
+import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(description = APIDoc.DESC_USERCONTROLLER,
+        name = "UserController",
+        group = APIDoc.GROUP_USER,
+        visibility = ApiVisibility.PUBLIC)
 @RestController
 public class UserController extends BaseController{
 
@@ -129,6 +135,10 @@ public class UserController extends BaseController{
         return new ResponseEntity<List<InteractionMod>>(mods, HttpStatus.OK);
     }
 
+    @ApiMethod(produces = APIDoc.PROD_CONSU_JSON,
+               consumes = APIDoc.PROD_CONSU_JSON,
+               summary = APIDoc.SUM_SEARCH_HELP)
+    @ApiBodyObject(clazz = SearchItem.class)
     @RequestMapping(value = "/user/help/search", method = RequestMethod.GET)
     public HttpEntity searchHelp(@RequestBody SearchItem search) {
 

@@ -8,6 +8,7 @@
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/InteractionController.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/model/UserProfile.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/gcm/vo/Content.java
+/home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/utils/APIDoc.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/service/user/AccountService.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/service/user/UserServiceImpl.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/gcm/utils/MessageResponse.java
@@ -44,15 +45,18 @@
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/repository/UserRepository.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/model/Evaluation.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/mod/RequestHelpMod.java
+/home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/repository/SubjectRepository.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/model/Interaction.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/service/InteractionService.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/repository/AccountTypeRepository.java
+/home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/utils/Utils.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/gcm/vo/HelpContent.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/mod/EvaluationMod.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/data/CourseData.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/service/KnowledgeService.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/gcm/vo/ResponseHelpContent.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/KnowledgeController.java
+/home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/controller/mod/KnowledgeMod.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/repository/AreaRepository.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/service/RequestHelpService.java
 /home/grimmjowjack/Documents/Labex/Looky/resource/src/main/java/br/feevale/labex/repository/EvaluationRepository.java

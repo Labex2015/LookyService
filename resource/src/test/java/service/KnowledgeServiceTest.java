@@ -1,13 +1,11 @@
 package service;
 
 import br.feevale.labex.model.Area;
-import br.feevale.labex.repository.*;
+import br.feevale.labex.repository.AreaRepository;
+import br.feevale.labex.repository.KnowledgeRepository;
 import br.feevale.labex.service.KnowledgeService;
 import br.feevale.labex.service.KnowledgeServiceImpl;
-import br.feevale.labex.service.user.UserService;
-import br.feevale.labex.service.user.UserServiceImpl;
 import mocks.KnowledgesAndAreasMock;
-import mocks.UserAndAccountMocks;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +36,7 @@ public class KnowledgeServiceTest {
 
     @Before
     public void setUp(){
-        service = new KnowledgeServiceImpl(repository, areaRepository);
+        service = new KnowledgeServiceImpl(repository, areaRepository, null);
     }
 
     @Test

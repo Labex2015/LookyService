@@ -1,7 +1,5 @@
 package br.feevale.labex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 /**

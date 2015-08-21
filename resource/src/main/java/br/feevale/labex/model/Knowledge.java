@@ -1,5 +1,7 @@
 package br.feevale.labex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,7 +18,7 @@ import java.io.Serializable;
 })
 public class Knowledge implements Serializable{
 
-
+    @JsonIgnore
     @EmbeddedId
     private KnowledgeId id;
 

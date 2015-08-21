@@ -1,3 +1,17 @@
 service/KnowledgeServiceTest.class
+controller/UserControllerIT.class
+service/InteractionServiceTest.class
+mocks/InteractionMocks.class
+service/UserServiceTest.class
+mocks/ResponseMocks.class
+mocks/MockUtils.class
 mocks/KnowledgesAndAreasMock.class
+service/InteractionIT.class
+controller/InteractionControllerTest.class
+controller/UserControllerTest.class
+service/HelpServiceTest.class
+mocks/SearchMock.class
+mocks/RequestHelpMock.class
 controller/KnowledgeControllerTest.class
+mocks/UserAndAccountMocks.class
+mocks/EvaluationMocks.class

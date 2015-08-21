@@ -1,10 +1,13 @@
 package br.feevale.labex.service;
 
 import br.feevale.labex.controller.data.KnowledgesData;
+import br.feevale.labex.controller.mod.KnowledgeMod;
 import br.feevale.labex.model.Area;
 import br.feevale.labex.model.Knowledge;
+import br.feevale.labex.model.Subject;
 import br.feevale.labex.repository.AreaRepository;
 import br.feevale.labex.repository.KnowledgeRepository;
+import br.feevale.labex.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -20,11 +23,14 @@ public class KnowledgeServiceImpl implements KnowledgeService {
 
     private final KnowledgeRepository repository;
     private final AreaRepository areaRepository;
+    private final SubjectRepository subjectRepository;
 
     @Inject
-    public KnowledgeServiceImpl(KnowledgeRepository repository, AreaRepository areaRepository) {
+    public KnowledgeServiceImpl(KnowledgeRepository repository, AreaRepository areaRepository,
+                                SubjectRepository subjectRepository) {
         this.repository = repository;
         this.areaRepository = areaRepository;
+        this.subjectRepository = subjectRepository;
     }
 
     @Transactional
@@ -45,6 +51,16 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
     @Override
+    public List<KnowledgeMod> listKnowledgesByUser(Long id) {
+        List<Knowledge> knowledges = repository.findByUserId(id);
+        List<KnowledgeMod> mods = new ArrayList<>();
+        for(Knowledge k : knowledges)
+            mods.add(new KnowledgeMod(k));
+
+        return mods;
+    }
+
+    @Override
     public List<Area> listAreas() {
         return areaRepository.findAll();
     }
@@ -59,13 +75,38 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
     @Override
-    public Knowledge save(Knowledge entity) {
-        return null;
+    public Area findAreaById(Long area) {
+        return areaRepository.findOne(area);
     }
 
     @Override
-    public void delete(Long id) {
+    public List<Subject> listSubjects() {
+        return subjectRepository.findAll();
+    }
 
+    @Override
+    public Subject findSubjectById(Long subject) {
+        return subjectRepository.findOne(subject);
+    }
+
+    @Override
+    public Knowledge save(Knowledge entity) {
+        Knowledge verifier = repository.findKnowledge(entity.getId().getArea().getId(),
+                                                      entity.getId().getUser().getId());
+        if(verifier != null)
+            return verifier;
+
+        return repository.saveAndFlush(entity);
+    }
+
+    @Override
+    public Boolean delete(Long idArea, Long idUser) {
+        Knowledge knowledge = repository.findKnowledge(idArea, idUser);
+        if(knowledge == null)
+            return false;
+
+        repository.delete(knowledge);
+        return true;
     }
 
     @Override

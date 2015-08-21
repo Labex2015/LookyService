@@ -12,6 +12,7 @@ br/feevale/labex/service/user/UserService.class
 br/feevale/labex/service/user/AccountServiceImpl.class
 br/feevale/labex/model/SearchItem.class
 br/feevale/labex/service/user/AccountService.class
+br/feevale/labex/utils/Utils.class
 br/feevale/labex/model/AccountType.class
 br/feevale/labex/repository/EvaluationRepository.class
 br/feevale/labex/service/RequestHelpService.class
@@ -26,6 +27,7 @@ br/feevale/labex/controller/mod/BaseMod.class
 br/feevale/labex/exceptions/IllegalRequestException.class
 br/feevale/labex/repository/AreaRepository.class
 br/feevale/labex/gcm/vo/Content.class
+br/feevale/labex/repository/SubjectRepository.class
 br/feevale/labex/loader/DatabaseLoader.class
 br/feevale/labex/controller/UserController.class
 br/feevale/labex/controller/BaseController$1.class
@@ -41,6 +43,7 @@ br/feevale/labex/model/Account.class
 br/feevale/labex/model/KnowledgeId.class
 br/feevale/labex/controller/mod/InteractionMod.class
 br/feevale/labex/repository/DegreeRepository.class
+br/feevale/labex/controller/utils/APIDoc.class
 br/feevale/labex/controller/mod/EvaluationMod.class
 br/feevale/labex/service/BaseService.class
 br/feevale/labex/gcm/vo/ResponseHelp.class

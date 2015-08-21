@@ -14,8 +14,13 @@ import java.util.List;
 @Repository
 public interface KnowledgeRepository extends JpaRepository<Knowledge, Long>{
 
-    public static final String FIND_BY_USER = "Select k.* from knowledge as k where k.user_id = :user";
+    String FIND_BY_USER = "Select k.* from knowledge as k where k.user_id = :user";
+
+    String FIND_BY_USER_AND_AREA = "Select k.* from knowledge as k where k.user_id = :user and k.area_id = :area";
 
     @Query(nativeQuery = true, value = FIND_BY_USER)
     List<Knowledge> findByUserId(@Param("user") Long id);
+
+    @Query(nativeQuery = true, value = FIND_BY_USER_AND_AREA)
+    Knowledge findKnowledge(@Param("area")Long idArea,@Param("user") Long idUser);
 }

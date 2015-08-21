@@ -16,4 +16,5 @@ public class KnowledgesAndAreasMock {
     public static KnowledgeMod getKnowledgeWithAreaId(Long userValid, String areaValidName, Long subjectId) {
         return new KnowledgeMod(userValid, areaValidName, null, subjectId);
     }
+
 }

@@ -95,6 +95,18 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- API para documentação do webservice-->
+        <dependency>
+            <groupId>org.jsondoc</groupId>
+            <artifactId>spring-boot-starter-jsondoc</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsondoc</groupId>
+            <artifactId>jsondoc-ui-webjar</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
