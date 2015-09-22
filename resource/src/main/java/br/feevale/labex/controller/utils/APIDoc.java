@@ -31,6 +31,8 @@ public class APIDoc {
     // ### OBJECTS ###
     public static final String DESC_MOD_KNOWLEDGE = "Objeto usado para transitar dados de conhecimento.";
 
+    public static final String SUM_RESURCES_KNOWLEDGE = "Recursos para cadastro de conhecimento.";
+    public static final String STATUS_LIST_KNOWLEDGE_RESOURCE = "200- Lista com valores; 204 - Sem conteúdo";
 
     /**
      * USER API DOCUMENTATION.

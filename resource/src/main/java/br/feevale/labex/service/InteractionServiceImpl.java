@@ -65,11 +65,6 @@ public class InteractionServiceImpl implements InteractionService {
     }
 
     @Override
-    public List<Interaction> loadPendingInteractions(Long idUser) {
-        return null;
-    }
-
-    @Override
     public List<Evaluation> getEvaluationsForOne(Long id) {
         return evaluationRepository.findEvaluationsToOne(id);
     }

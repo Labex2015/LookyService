@@ -1,5 +1,7 @@
 package br.feevale.labex.controller;
 
+import br.feevale.labex.controller.mod.GlobalHelpMod;
+import br.feevale.labex.controller.mod.RequestHelpGlobalMod;
 import br.feevale.labex.controller.mod.RequestHelpMod;
 import br.feevale.labex.controller.mod.ResponseMod;
 import br.feevale.labex.exceptions.IllegalRequestException;
@@ -8,6 +10,7 @@ import br.feevale.labex.gcm.vo.HelpContent;
 import br.feevale.labex.gcm.vo.NotificationContent;
 import br.feevale.labex.model.Interaction;
 import br.feevale.labex.model.RequestHelp;
+import br.feevale.labex.model.RequestHelpGlobal;
 import br.feevale.labex.model.User;
 import br.feevale.labex.service.InteractionService;
 import br.feevale.labex.service.RequestHelpService;
@@ -18,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 0126128 on 02/07/2015.
@@ -36,6 +41,8 @@ public class InteractionController extends BaseController{
         this.userService = userService;
         this.interactionService = interactionService;
     }
+
+
 
     @RequestMapping(value = "/user/{idUser}/request/{idHelper}", method = RequestMethod.POST)
     public HttpEntity requestUserHelp(@PathVariable Long idUser, @PathVariable Long idHelper,
@@ -91,6 +98,81 @@ public class InteractionController extends BaseController{
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @RequestMapping(value = "/user/{idUser}/interactions/pending", method = RequestMethod.GET)
+    public HttpEntity getPendingInteractions(@PathVariable Long idUser) {
+        if(idUser == 0)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        List<RequestHelp> interactions = service.loadPendingInteractions(idUser);
+        if(interactions == null || interactions.isEmpty())
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return processRequestHelpReturn(interactions);
+    }
+
+    @RequestMapping(value = "/user/request_help/global", method = RequestMethod.POST)
+    public HttpEntity openGlobalRequestHelp(@RequestBody GlobalHelpMod globalHelpMod){
+
+        try{
+            globalHelpMod.validateMe(globalHelpMod);
+            User user = userService.findById(globalHelpMod.idUser);
+            if(user == null)
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+
+            RequestHelp requestHelp = null;
+
+            if(globalHelpMod.idRequestHelp > 0) {
+                requestHelp = service.findById(globalHelpMod.idRequestHelp);
+                if(requestHelp == null || requestHelp.getStatus() == RequestHelp.CLOSED)
+                    return new ResponseEntity("Pedido de ajuda inválido.",HttpStatus.UNPROCESSABLE_ENTITY);
+            }else{
+                if(globalHelpMod.params == null || globalHelpMod.params.length() == 0)
+                    return new ResponseEntity("Você precisa definir um parâmetro de busca.",HttpStatus.UNPROCESSABLE_ENTITY);
+
+                requestHelp = new RequestHelp();
+                requestHelp.setParams(globalHelpMod.params);
+                requestHelp.setRequester(user);
+            }
+            RequestHelpGlobal global = new RequestHelpGlobal();
+            global.setDescription(globalHelpMod.description);
+            global.setTitle(globalHelpMod.title);
+            global.setRequestHelp(requestHelp);
+
+            global = service.openGlobalRequestHelp(global);
+            if(global != null && global.getId() > 0)
+                return new ResponseEntity(HttpStatus.CREATED);
+
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception e){
+            e.printStackTrace();
+            if(e instanceof InvalidFieldException)
+                return new ResponseEntity(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(value = "/request_help/global", method = RequestMethod.GET)
+    public HttpEntity getOpenGlobalRequest(){
+        List<RequestHelpGlobalMod> models = service.listAllGlobalRequestHelp();
+        if(models == null || models.isEmpty())
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity(models, HttpStatus.OK);
+    }
+
+
+    private HttpEntity processRequestHelpReturn(List<RequestHelp> helpList) {
+        List<RequestHelpMod> mods = new ArrayList<RequestHelpMod>();
+        for(RequestHelp r : helpList)
+            mods.add(new RequestHelpMod(r));
+
+        return new ResponseEntity(mods, HttpStatus.OK);
+    }
+
 
     private HelpContent getHelpContent(RequestHelp requestHelp){
         HelpContent helpContent = new HelpContent();

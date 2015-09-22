@@ -1,5 +1,6 @@
 package br.feevale.labex.service.user;
 
+import br.feevale.labex.controller.mod.LoginMod;
 import br.feevale.labex.controller.mod.UserMod;
 import br.feevale.labex.model.Account;
 import br.feevale.labex.model.AccountType;
@@ -23,5 +24,9 @@ public interface UserService extends BaseService<User> {
 
     User getUserByInteraction(Long idInteraction, Long id);
 
-    List<UserMod> searchUsersToHelp(String param, int position, int max, Long idSubject);
+    List<UserMod> searchUsersToHelp(String param, int position, int max, Long idSubject,Long idUser);
+
+    User login(LoginMod loginMod, String type);
+
+    boolean validateUserName(String username);
 }

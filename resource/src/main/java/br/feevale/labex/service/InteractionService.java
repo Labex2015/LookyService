@@ -16,7 +16,5 @@ public interface InteractionService extends BaseService<Interaction>{
 
     Boolean closeInteraction(Interaction interaction, EvaluationMod evaluation);
 
-    List<Interaction> loadPendingInteractions(Long idUser);
-
     List<Evaluation> getEvaluationsForOne(Long id);
 }

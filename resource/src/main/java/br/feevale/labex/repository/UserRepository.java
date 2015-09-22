@@ -40,11 +40,14 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
                                              " from user as u left join degree as d on u.degree_id = d.id " +
                                              " inner join knowledge as k on u.id = k.user_id" +
                                              " inner join area as a on a.id = k.area_id" +
-                                             " where upper(a.name) like upper(:param) ";
+                                             " where upper(a.name) like upper(:param) and u.id != :user ";
     public static final String SEARCH_HELP_AND = "and k.subject_id = :idSubject";
 
     public static final String SEARCH_HELP_END = " group by u.id LIMIT :init,:max";
 
+
+    public static final String SEARCH_BY_ACCOUNT = "select u.* from user as u inner join account as a on u.account_id = a.id "+
+                                                 " where a.account = :account_id";
 
 
     @Query(nativeQuery = true, value = USER_BY_INTERACTION)
@@ -57,9 +60,14 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query(nativeQuery = true, value = SEARCH_HELP+SEARCH_HELP_END)
     List<User> searchUsersToHelp(@Param("param") String param,
-                                 @Param("init") int init, @Param("max") int max);
+                                 @Param("init") int init, @Param("max") int max, @Param("user") Long user);
 
     @Query(nativeQuery = true, value = SEARCH_HELP+SEARCH_HELP_AND+SEARCH_HELP_END)
     List<User> searchUsersToHelp(@Param("param") String param, @Param("idSubject") Long idSubject,
-                                 @Param("init") int init, @Param("max") int max);
+                                 @Param("init") int init, @Param("max") int max, @Param("user") Long user);
+
+    @Query(nativeQuery = true, value = SEARCH_BY_ACCOUNT)
+    User findUserByToken(@Param("account_id")String accountID);
+
+    User findUserByUsername(String username);
 }

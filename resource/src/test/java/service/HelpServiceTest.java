@@ -2,6 +2,7 @@ package service;
 
 import br.feevale.labex.exceptions.IllegalRequestException;
 import br.feevale.labex.model.RequestHelp;
+import br.feevale.labex.repository.RequestHelpGlobalRepository;
 import br.feevale.labex.repository.RequestHelpRepository;
 import br.feevale.labex.service.RequestHelpService;
 import br.feevale.labex.service.RequestHelpServiceImpl;
@@ -26,11 +27,14 @@ public class HelpServiceTest {
     @Mock
     private RequestHelpRepository requestHelpRepository;
 
+    @Mock
+    private RequestHelpGlobalRepository globalRepository;
+
     private RequestHelpService service;
 
     @Before
     public void setUp(){
-        service = new RequestHelpServiceImpl(requestHelpRepository);
+        service = new RequestHelpServiceImpl(requestHelpRepository, globalRepository);
     }
 
     @Test

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -21,6 +22,7 @@ public class Account implements Serializable {
     @Column(nullable = false)
     private String account;
 
+    @Column(length = 400)
     private String token;
 
     @JsonIgnore
@@ -78,14 +80,6 @@ public class Account implements Serializable {
         this.user = user;
     }
 
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
     public Boolean getAppStatus() {
         return appStatus;
     }
@@ -100,5 +94,13 @@ public class Account implements Serializable {
 
     public void setProfileStatus(Boolean profileStatus) {
         this.profileStatus = profileStatus;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

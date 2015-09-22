@@ -1,6 +1,7 @@
 package br.feevale.labex.controller;
 
 import br.feevale.labex.controller.mod.KnowledgeMod;
+import br.feevale.labex.controller.mod.ResourcesKnowledge;
 import br.feevale.labex.controller.utils.APIDoc;
 import br.feevale.labex.model.Area;
 import br.feevale.labex.model.Knowledge;
@@ -13,7 +14,6 @@ import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.pojo.ApiVisibility;
-import org.springframework.data.repository.init.ResourceReader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,7 +124,16 @@ public class KnowledgeController {
     }
 
 
+    @ApiMethod(summary = APIDoc.SUM_RESURCES_KNOWLEDGE,
+            responsestatuscode = APIDoc.STATUS_LIST_KNOWLEDGE_RESOURCE)
+    @RequestMapping(value = "/knowledge/resources", method = RequestMethod.GET)
+    public HttpEntity getKnowledgesAndAreas(){
+        ResourcesKnowledge resource = new ResourcesKnowledge();
+        resource.areas = service.listAreas();
+        resource.subjects = service.listSubjects();
 
+        return new ResponseEntity(resource, HttpStatus.OK);
+    }
 
     private ResponseEntity getErrorResponse(Object object) {
 

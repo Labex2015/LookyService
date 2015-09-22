@@ -5,7 +5,6 @@ import br.feevale.labex.controller.mod.KnowledgeMod;
 import br.feevale.labex.model.Area;
 import br.feevale.labex.model.Knowledge;
 import br.feevale.labex.model.Subject;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 

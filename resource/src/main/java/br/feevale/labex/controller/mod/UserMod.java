@@ -17,6 +17,7 @@ public class UserMod {
     private Integer semester;
     private String picturePath;
     private byte[] picture;
+    private String token;
 
     public UserMod() {
     }
@@ -34,7 +35,7 @@ public class UserMod {
         setDescription(user.getDescription());
         setSemester(user.getSemester());
         setPicturePath(user.getPicturePath());
-
+        setToken(user.getAccount().getToken());
         if(user.getDegree() != null)
             setDegree(user.getDegree().getName());
     }
@@ -117,5 +118,13 @@ public class UserMod {
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -17,8 +17,10 @@ public interface InteractionRepository extends JpaRepository<Interaction, Long>{
     public static final String ACTIVE_INTERACTIONS_BY_USER = "Select i.* from interaction as i "+
             "inner join request_help as rh "+
             "on i.request_help_id = rh.id "+
-            "where i.open = 1 and (rh.helper_id = :idUser || rh.requester_id = :idUser)";
+            "where i.open = 1 and (rh.status = 'A' ||  rh.status = 'O') " +
+            "and (rh.helper_id = :idUser || rh.requester_id = :idUser)";
 
     @Query(nativeQuery = true, value = ACTIVE_INTERACTIONS_BY_USER)
     List<Interaction> findByUser(@Param("idUser") Long validId);
+
 }

@@ -9,6 +9,9 @@ import java.io.Serializable;
 @Entity(name = "account_type")
 public class AccountType implements Serializable{
 
+    @Transient
+    public static final String GOOGLE = "Google", TWITTER = "Twitter", FACEBOOK = "Facebook";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

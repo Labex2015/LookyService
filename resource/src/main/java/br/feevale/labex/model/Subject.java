@@ -1,7 +1,5 @@
 package br.feevale.labex.model;
 
-import br.feevale.labex.controller.mod.KnowledgeMod;
-
 import javax.persistence.*;
 
 /**

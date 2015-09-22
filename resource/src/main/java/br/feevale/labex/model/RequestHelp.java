@@ -33,6 +33,7 @@ public class RequestHelp implements Serializable {
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(nullable = true,insertable = true, updatable = true)
     private User helper;
 
     @Transient
