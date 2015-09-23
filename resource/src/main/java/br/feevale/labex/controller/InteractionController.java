@@ -21,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -69,7 +71,7 @@ public class InteractionController extends BaseController{
         }
     }
 
-    @RequestMapping(value = "/user/{idUser}/respond")
+    @RequestMapping(value = "/user/{idUser}/respond", method = RequestMethod.PUT)
     public HttpEntity respondToRequest(@PathVariable Long idUser,@RequestBody ResponseMod responseMod) {
         try{
             responseMod.validateMe(responseMod);
@@ -162,6 +164,48 @@ public class InteractionController extends BaseController{
             return new ResponseEntity(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity(models, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/request_help/global", method = RequestMethod.DELETE)
+    public HttpEntity removeGlobalRequest(@RequestHeader(value = "user") String user,
+                                          @RequestHeader(value = "token") String token,
+                                          @RequestHeader(value = "item") String item){
+        try{
+            HashMap<String, Object> params = validateFields(user, token, item);
+            User userObject = userService.getUserByTokenAndID((Long) params.get("user"), token);
+            if(userObject == null)
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            RequestHelp requestHelp = service.findById((Long) params.get("item"));
+            if(requestHelp == null)
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+            if(service.closeRequestHelp(requestHelp))
+                return new ResponseEntity(HttpStatus.ACCEPTED);
+            else
+                return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    private HashMap<String, Object> validateFields(String user, String token, String item) {
+
+        if(user == null || user.isEmpty())
+            throw new InvalidParameterException("Header missing: user");
+        if(token == null || token.isEmpty())
+            throw new InvalidParameterException("Header missing: token");
+        if(item == null || item.isEmpty())
+            throw new InvalidParameterException("Header missing: user");
+
+        HashMap<String, Object> params = new HashMap<>();
+        try{
+            params.put("user", Long.parseLong(user));
+            params.put("item", Long.parseLong(item));
+        }catch (Exception e){
+            throw new InvalidParameterException("Problems to convert header's items");
+        }
+        return params;
     }
 
 

@@ -169,6 +169,11 @@ public class UserServiceImpl implements UserService {
         return repository.findUserByUsername(username) != null ? false : true;
     }
 
+    @Override
+    public User getUserByTokenAndID(Long id, String token) {//TODO: Implementar validação de segurança
+        return findById(id);                                //não implementei por questões de testes
+    }
+
     @Transactional
     @Override
     public User save(User entity) {

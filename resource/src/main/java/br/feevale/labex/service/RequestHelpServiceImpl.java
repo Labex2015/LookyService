@@ -114,4 +114,16 @@ public class RequestHelpServiceImpl implements RequestHelpService {
 
         return models;
     }
+
+    @Override
+    public Boolean closeRequestHelp(RequestHelp requestHelp) {
+        try {
+            requestHelp.setStatus(RequestHelp.CLOSED);
+            requestHelp.setRequestGlobal(null);
+            save(requestHelp);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

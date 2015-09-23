@@ -18,4 +18,6 @@ public interface RequestHelpService extends BaseService<RequestHelp>{
     RequestHelpGlobal openGlobalRequestHelp(RequestHelpGlobal global);
 
     List<RequestHelpGlobalMod> listAllGlobalRequestHelp();
+
+    Boolean closeRequestHelp(RequestHelp requestHelp);
 }

@@ -29,4 +29,6 @@ public interface UserService extends BaseService<User> {
     User login(LoginMod loginMod, String type);
 
     boolean validateUserName(String username);
+
+    User getUserByTokenAndID(Long aLong, String token);
 }
