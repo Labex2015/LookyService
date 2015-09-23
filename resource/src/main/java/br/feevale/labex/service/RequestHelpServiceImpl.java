@@ -45,7 +45,7 @@ public class RequestHelpServiceImpl implements RequestHelpService {
 
     @Override
     public RequestHelp findById(Long id) {
-        return null;
+        return repository.findOne(id);
     }
 
     @Override
