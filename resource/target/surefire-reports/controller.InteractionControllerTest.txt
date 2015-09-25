@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: controller.InteractionControllerTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.043 sec - in controller.InteractionControllerTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.728 sec - in controller.InteractionControllerTest

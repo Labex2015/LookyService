@@ -31,8 +31,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -75,6 +77,37 @@ public class UserController extends BaseController{
                 return new ResponseEntity(userMod, HttpStatus.OK);
             else
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/user/profile/private", method = RequestMethod.PUT)
+    public HttpEntity updateProfile(@RequestBody LoginMod loginMod){
+        try{
+            loginMod.validateMe(loginMod);
+            User user = service.getUserByAccount(loginMod.getAccountID());
+
+            if(user == null)
+                return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+
+            if(validateUser(loginMod.getToken(),user)){
+
+                user.setDeviceKey(loginMod.getDeviceKey());
+                user.setDegree(knowledgeService.findDegree(loginMod.getDegreeID()));
+                user.setSemester(loginMod.getSemester());
+                service.save(user);
+
+                return new ResponseEntity(HttpStatus.OK);
+            }
+
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+
+        }catch (Exception e){
+            if(e instanceof InvalidFieldException)
+                return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            else if(e instanceof UnauthorizedAccessException)
+                return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "/user/{id}/profile", method = RequestMethod.GET)
@@ -157,7 +190,7 @@ public class UserController extends BaseController{
                     HttpStatus.UNPROCESSABLE_ENTITY);
 
         List<UserMod> resultList = service.searchUsersToHelp(search.param, search.position, search.max,
-                                                             search.subject, idUser);
+                search.subject, idUser);
         if(resultList.isEmpty())
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         return new ResponseEntity(resultList, HttpStatus.OK);
@@ -195,7 +228,7 @@ public class UserController extends BaseController{
             }
             return new ResponseEntity("Problemas ao salvar dados.", HttpStatus.INTERNAL_SERVER_ERROR);
         }catch(Exception e){
-            e.printStackTrace();
+            log.warning(e.getMessage());
             if(e instanceof InvalidFieldException)
                 return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
             else if(e instanceof UnauthorizedAccessException)
@@ -218,7 +251,7 @@ public class UserController extends BaseController{
             return new ResponseEntity("Problemas ao salvar dados.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }catch(Exception e){
-            e.printStackTrace();
+            log.warning(e.getMessage());
             if(e instanceof InvalidFieldException)
                 return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
             else if(e instanceof UnauthorizedAccessException)
@@ -226,6 +259,27 @@ public class UserController extends BaseController{
 
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @RequestMapping(value = "/user/{idUser}/device", method = RequestMethod.PUT)
+    public HttpEntity updateDeviceKey(@PathVariable(value = "idUser") Long idUser,
+                                      @RequestHeader(value = "token") String token,
+                                      @RequestHeader(value = "item") String item){
+            try{
+                if(token == null || token.isEmpty() || item == null || item.isEmpty())
+                    return new ResponseEntity("Parâmetros inválidos.",HttpStatus.UNPROCESSABLE_ENTITY);
+
+                User user = service.findById(idUser);
+                if(user == null || !validateUser(token,user))
+                    return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+
+                user.setDeviceKey(item);
+                return new ResponseEntity(service.updateDeviceKey(user) ? HttpStatus.OK : HttpStatus.NOT_MODIFIED);
+            }catch (Exception e){
+                e.printStackTrace();
+                return new ResponseEntity(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            }
     }
 
     private String validateFacebook(LoginMod loginMod) {
@@ -255,7 +309,6 @@ public class UserController extends BaseController{
 
 
     private String validateGoogleId(LoginMod loginMod){
-
         NetHttpTransport transport = new NetHttpTransport();
         JsonFactory mJFactory = new JacksonFactory();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, mJFactory)
@@ -266,9 +319,9 @@ public class UserController extends BaseController{
         try {
             idToken = verifier.verify(loginMod.getToken());
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
+            log.warning(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warning(e.getMessage());
         }
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
@@ -283,5 +336,25 @@ public class UserController extends BaseController{
         }
     }
 
+    private boolean validateUser(String token, User user){
+
+        if(user.getAccount().getAccountType().getType().equals(AccountType.FACEBOOK)){
+            LoginMod mod = new LoginMod();
+            mod.setToken(mod.getAccountID());
+            String response = validateFacebook(mod);
+            if(response == null)
+                return false;
+            return true;
+        }else if(user.getAccount().getAccountType().getType().equals(AccountType.GOOGLE)){
+            LoginMod mod = new LoginMod();
+            mod.setToken(token);
+            String response = validateGoogleId(mod);
+            if(response == null || !response.equals(user.getAccount().getAccount()))
+                return false;
+
+            return true;
+        }
+        return false;
+    }
 
 }

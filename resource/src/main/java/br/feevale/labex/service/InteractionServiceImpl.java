@@ -1,14 +1,18 @@
 package br.feevale.labex.service;
 
 import br.feevale.labex.controller.mod.EvaluationMod;
+import br.feevale.labex.exceptions.IllegalRequestException;
 import br.feevale.labex.model.Evaluation;
 import br.feevale.labex.model.Interaction;
+import br.feevale.labex.model.RequestHelp;
 import br.feevale.labex.repository.EvaluationRepository;
 import br.feevale.labex.repository.InteractionRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.security.InvalidParameterException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -71,23 +75,20 @@ public class InteractionServiceImpl implements InteractionService {
 
     @Override
     public Interaction save(Interaction entity) {
-        return null;
+        return repository.saveAndFlush(entity);
     }
 
+    @Transactional
     @Override
-    public void delete(Long id) {
-
-    }
+    public void delete(Long id) {}//Não pode remover uma interação.
 
     @Override
     public Interaction findById(Long id) {
-        return null;
+        return repository.findOne(id);
     }
 
     @Override
-    public List<Interaction> findAll() {
-        return null;
-    }
+    public List<Interaction> findAll() {return null;} // Não se pode listar todas as interações.
 
     @Override
     public List<Interaction> findByParam(Object... params) {

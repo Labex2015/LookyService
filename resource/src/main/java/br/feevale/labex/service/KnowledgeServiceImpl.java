@@ -3,9 +3,11 @@ package br.feevale.labex.service;
 import br.feevale.labex.controller.data.KnowledgesData;
 import br.feevale.labex.controller.mod.KnowledgeMod;
 import br.feevale.labex.model.Area;
+import br.feevale.labex.model.Degree;
 import br.feevale.labex.model.Knowledge;
 import br.feevale.labex.model.Subject;
 import br.feevale.labex.repository.AreaRepository;
+import br.feevale.labex.repository.DegreeRepository;
 import br.feevale.labex.repository.KnowledgeRepository;
 import br.feevale.labex.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
@@ -24,13 +26,15 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     private final KnowledgeRepository repository;
     private final AreaRepository areaRepository;
     private final SubjectRepository subjectRepository;
+    private final DegreeRepository degreeRepository;
 
     @Inject
     public KnowledgeServiceImpl(KnowledgeRepository repository, AreaRepository areaRepository,
-                                SubjectRepository subjectRepository) {
+                                SubjectRepository subjectRepository, DegreeRepository degreeRepository) {
         this.repository = repository;
         this.areaRepository = areaRepository;
         this.subjectRepository = subjectRepository;
+        this.degreeRepository = degreeRepository;
     }
 
     @Transactional
@@ -87,6 +91,11 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     @Override
     public Subject findSubjectById(Long subject) {
         return subjectRepository.findOne(subject);
+    }
+
+    @Override
+    public Degree findDegree(Long degreeID) {
+        return degreeRepository.findOne(degreeID);
     }
 
     @Override

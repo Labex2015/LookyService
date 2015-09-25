@@ -40,7 +40,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
                                              " from user as u left join degree as d on u.degree_id = d.id " +
                                              " inner join knowledge as k on u.id = k.user_id" +
                                              " inner join area as a on a.id = k.area_id" +
-                                             " where upper(a.name) like upper(:param) and u.id != :user ";
+                                             " where upper(a.name) like upper(CONCAT('',:param,'%')) and u.id != :user ";
     public static final String SEARCH_HELP_AND = "and k.subject_id = :idSubject";
 
     public static final String SEARCH_HELP_END = " group by u.id LIMIT :init,:max";
@@ -70,4 +70,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     User findUserByToken(@Param("account_id")String accountID);
 
     User findUserByUsername(String username);
+
+    User findUserByDeviceKey(String deviceKey);
 }

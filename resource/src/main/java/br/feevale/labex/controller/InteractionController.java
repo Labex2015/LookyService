@@ -25,6 +25,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by 0126128 on 02/07/2015.
@@ -36,6 +37,8 @@ public class InteractionController extends BaseController{
     private final RequestHelpService service;
     private final UserService userService;
     private final InteractionService interactionService;
+
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     @Inject
     public InteractionController(RequestHelpService service, UserService userService, InteractionService interactionService) {
@@ -76,27 +79,40 @@ public class InteractionController extends BaseController{
         try{
             responseMod.validateMe(responseMod);
             RequestHelp request = service.findById(responseMod.id);
-            if(request == null || request.getHelper().getId() != idUser
-                               || request.getStatus() != RequestHelp.WAITING)
+            if(request == null || request.getStatus() == RequestHelp.CLOSED
+                    || (request.getHelper() != null && request.getHelper().getId() != idUser
+                     && request.getRequester().getId() == idUser))
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
+
             User askedBy = request.getHelper();
+            if(askedBy == null)
+                askedBy = userService.findById(idUser);
+
+            request.setHelper(askedBy);
 
             if(responseMod.accepted) {
                 Interaction interaction = new Interaction(request);
                 interactionService.save(interaction);
             }
-            request.setStatus(responseMod.accepted ? RequestHelp.ACCEPTED : RequestHelp.REJECTED);
 
-            if(!responseMod.accepted) request.setHelper(null);
-
-            service.save(request);
+            if(responseMod.accepted){
+                request.setStatus(RequestHelp.ACCEPTED);
+                Interaction interaction = new Interaction(request);
+                interactionService.save(interaction);
+            }else{
+                request.setHelper(null);
+                request.setStatus(RequestHelp.OPEN);
+            }
+                   service.save(request);
             sendNotification(askedBy.getDeviceKey(), getNotificationContent(responseMod.text));
 
             return new ResponseEntity(HttpStatus.OK);
         }catch (Exception e){
+            e.printStackTrace();
+            log.warning(e.getMessage());
             if(e instanceof InvalidFieldException)
                 return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-            e.printStackTrace();
+
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

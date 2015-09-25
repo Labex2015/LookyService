@@ -3,6 +3,7 @@ package br.feevale.labex.service;
 import br.feevale.labex.controller.mod.RequestHelpGlobalMod;
 import br.feevale.labex.controller.mod.UserMod;
 import br.feevale.labex.exceptions.IllegalRequestException;
+import br.feevale.labex.model.Interaction;
 import br.feevale.labex.model.RequestHelp;
 import br.feevale.labex.model.RequestHelpGlobal;
 import br.feevale.labex.model.User;
@@ -32,7 +33,6 @@ public class RequestHelpServiceImpl implements RequestHelpService {
         this.globalRepository = globalRepository;
     }
 
-    @Transactional
     @Override
     public RequestHelp save(RequestHelp entity) {
         return repository.saveAndFlush(entity);

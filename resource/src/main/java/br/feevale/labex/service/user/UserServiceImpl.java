@@ -117,8 +117,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(LoginMod loginMod, String type) {
         User user = repository.findUserByToken(loginMod.getAccountID());
-        if(user != null)
+        if(user != null) {
+            if(loginMod.getDeviceKey() != null && !user.getDeviceKey().equals(loginMod.getDeviceKey())){
+                User userFromKey = repository.findUserByDeviceKey(loginMod.getDeviceKey());
+                if(userFromKey != null){
+                    userFromKey.setDeviceKey(null);
+                    save(userFromKey);
+                }
+                user.setDeviceKey(loginMod.getDeviceKey());
+                save(user);
+            }
             return user;
+        }
         if(!validateUserName(loginMod.getUsername()))
             throw new InvalidUserNameException(loginMod.getUsername());
 
@@ -174,6 +184,21 @@ public class UserServiceImpl implements UserService {
         return findById(id);                                //não implementei por questões de testes
     }
 
+    @Override
+    public Boolean updateDeviceKey(User user) {
+        User userFromKey = repository.findUserByDeviceKey(user.getDeviceKey());
+        if(userFromKey != null && userFromKey.getId() != user.getId()){
+            userFromKey.setDeviceKey(null);
+            save(userFromKey);
+        }
+        return save(user) != null;
+    }
+
+    @Override
+    public User getUserByAccount(String accountID) {
+        return repository.findUserByToken(accountID);
+    }
+
     @Transactional
     @Override
     public User save(User entity) {
@@ -200,4 +225,5 @@ public class UserServiceImpl implements UserService {
     public List<User> findByParam(Object... params) {
         return null;//TODO: A fazer;
     }
+
 }

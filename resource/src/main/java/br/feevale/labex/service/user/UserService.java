@@ -31,4 +31,8 @@ public interface UserService extends BaseService<User> {
     boolean validateUserName(String username);
 
     User getUserByTokenAndID(Long aLong, String token);
+
+    Boolean updateDeviceKey(User user);
+
+    User getUserByAccount(String accountID);
 }

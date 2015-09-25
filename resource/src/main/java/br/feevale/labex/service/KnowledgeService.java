@@ -3,6 +3,7 @@ package br.feevale.labex.service;
 import br.feevale.labex.controller.data.KnowledgesData;
 import br.feevale.labex.controller.mod.KnowledgeMod;
 import br.feevale.labex.model.Area;
+import br.feevale.labex.model.Degree;
 import br.feevale.labex.model.Knowledge;
 import br.feevale.labex.model.Subject;
 
@@ -28,4 +29,6 @@ public interface KnowledgeService{
     List<Subject> listSubjects();
 
     Subject findSubjectById(Long subject);
+
+    Degree findDegree(Long degreeID);
 }

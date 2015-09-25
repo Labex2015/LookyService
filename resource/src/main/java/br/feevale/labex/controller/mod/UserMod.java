@@ -13,11 +13,13 @@ public class UserMod {
     private Float latitude;
     private Float longitude;
     private String description;
+    private Long degreeID;
     private String degree;
     private Integer semester;
     private String picturePath;
     private byte[] picture;
     private String token;
+    private String accountID;
 
     public UserMod() {
     }
@@ -35,9 +37,12 @@ public class UserMod {
         setDescription(user.getDescription());
         setSemester(user.getSemester());
         setPicturePath(user.getPicturePath());
+        setAccountID(user.getAccount().getAccount());
         setToken(user.getAccount().getToken());
-        if(user.getDegree() != null)
+        if(user.getDegree() != null) {
             setDegree(user.getDegree().getName());
+            setDegreeID(user.getDegree().getId());
+        }
     }
 
     public Long getId() {
@@ -126,5 +131,21 @@ public class UserMod {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(String accountID) {
+        this.accountID = accountID;
+    }
+
+    public Long getDegreeID() {
+        return degreeID;
+    }
+
+    public void setDegreeID(Long degreeID) {
+        this.degreeID = degreeID;
     }
 }
